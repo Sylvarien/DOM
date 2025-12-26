@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MEME KING - Rule the Meme Empire</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+    
+    .royal-font {
+      font-family: 'Cinzel', serif;
+    }
+    
+    /* Compact Glass Card */
+    .glass-card {
+      background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(40, 30, 10, 0.7) 100%);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      transition: all 0.3s ease;
+    }
+    
+    .glass-card:hover {
+      border-color: rgba(255, 215, 0, 0.5);
+      transform: translateY(-2px);
+    }
+    
+    .header-glass {
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .gold-text {
+      color: #FFD700;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    
+    .btn-gold {
+      background: linear-gradient(135deg, #DAA520 0%, #FFD700 50%, #DAA520 100%);
+      background-size: 200% 200%;
+      animation: goldShine 2s ease infinite;
+      border: 1px solid rgba(255, 223, 0, 0.4);
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-gold:hover {
+      transform: scale(1.02);
+    }
+    
+    @keyframes goldShine {
+      
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+      
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+    
+    .btn-outline {
+      border: 1px solid rgba(255, 215, 0, 0.5);
+      background: rgba(255, 215, 0, 0.05);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(255, 215, 0, 0.1);
+      border-color: rgba(255, 215, 0, 0.8);
+    }
+    
+    /* Compact Chart */
+    .chart-wrapper {
+      position: relative;
+      height: 200px;
+    }
+    
+    /* Shimmer Loading */
+    .shimmer {
+      background: linear-gradient(90deg, rgba(255, 215, 0, 0.1) 25%, rgba(255, 215, 0, 0.2) 50%, rgba(255, 215, 0, 0.1) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      
+      100% {
+        background-position: 200% 0;
+      }
+    }
+    
+    /* Compact Stats */
+    .stat-item {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stat-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+      transition: left 0.4s;
+    }
+    
+    .stat-item:hover::before {
+      left: 100%;
+    }
+    
+    /* Profit Flow Compact */
+    .flow-line {
+      position: relative;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #FFD700, transparent);
+      animation: flowMove 2s ease-in-out infinite;
+    }
+    
+    @keyframes flowMove {
+      
+      0%,
+      100% {
+        opacity: 0.3;
+      }
+      
+      50% {
+        opacity: 0.8;
+      }
+    }
+    
+    /* Mobile Optimization */
+    @media (max-width: 640px) {
+      .chart-wrapper {
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="relative">
+    <!-- Compact Header -->
+    <header class="header-glass">
+      <nav class="container mx-auto px-3 py-2 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div id="logo-header" class="w-8 h-8 rounded-full shimmer"></div>
+          <span class="text-sm md:text-lg font-bold royal-font gold-text" id="symbol-header">KING</span>
+        </div>
+        
+        <div class="flex items-center gap-2 md:gap-4">
+          <a href="#empire" class="text-xs text-gray-400 hover:text-yellow-500 transition hidden md:inline">Empire</a>
+          <a href="#memes" class="text-xs text-gray-400 hover:text-yellow-500 transition hidden md:inline">Memes</a>
+          <a href="#buy" class="btn-gold px-3 md:px-4 py-1.5 rounded-lg text-xs text-black font-semibold">
+            <i class="fas fa-coins text-xs mr-1"></i>Centralized government
+          </a>
+        </div>
+      </nav>
+    </header>
+    
+    <!-- Compact Hero -->
+    <section class="container mx-auto px-3 py-6 md:py-10">
+      <div class="max-w-6xl mx-auto">
+        <!-- Logo & Title Row -->
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 mb-6">
+          <div id="logo-main" class="w-20 h-20 md:w-24 md:h-24 rounded-full shimmer flex-shrink-0 border-2 border-yellow-500/40"></div>
+          
+          <div class="text-center md:text-left flex-1">
+            <div class="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-xs font-bold mb-2">
+              <i class="fas fa-crown mr-1"></i>MEME EMPIRE RULER
+            </div>
+            <h1 class="text-3xl md:text-5xl font-black royal-font gold-text mb-1" id="token-name">MEME KING</h1>
+            <p class="text-lg md:text-2xl text-yellow-400 font-bold mb-2" id="token-ticker">$KING</p>
+            <p class="text-sm md:text-base text-gray-400 max-w-2xl" id="token-desc">
+              Supreme ruler of meme empire. Every meme profit flows back to strengthen the kingdom.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Compact Stats Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4">
+          <div class="glass-card stat-item rounded-xl p-3 text-center">
+            <i class="fas fa-dollar-sign text-yellow-400 text-lg mb-1"></i>
+            <p class="text-xs text-gray-400 mb-1">Price</p>
+            <p class="text-sm md:text-base font-bold text-yellow-400" id="price">
+              <span class="shimmer">--</span>
+            </p>
+          </div>
+          
+          <div class="glass-card stat-item rounded-xl p-3 text-center">
+            <i class="fas fa-chart-pie text-green-400 text-lg mb-1"></i>
+            <p class="text-xs text-gray-400 mb-1">Market Cap</p>
+            <p class="text-sm md:text-base font-bold text-green-400" id="mcap">
+              <span class="shimmer">--</span>
+            </p>
+          </div>
+          
+          <div class="glass-card stat-item rounded-xl p-3 text-center">
+            <i class="fas fa-water text-blue-400 text-lg mb-1"></i>
+            <p class="text-xs text-gray-400 mb-1">Treasury</p>
+            <p class="text-sm md:text-base font-bold text-blue-400" id="treasury">
+              <span class="shimmer">--</span>
+            </p>
+          </div>
+          
+          <div class="glass-card stat-item rounded-xl p-3 text-center">
+            <i class="fas fa-users text-purple-400 text-lg mb-1"></i>
+            <p class="text-xs text-gray-400 mb-1">Holders</p>
+            <p class="text-sm md:text-base font-bold text-purple-400" id="holders">
+              <span class="shimmer">--</span>
+            </p>
+          </div>
+        </div>
+        
+        <!-- CTA Buttons -->
+        <div class="flex gap-2 justify-center mb-4">
+          <a href="https://winscan.winsnip.xyz/paxi-mainnet/prc20/paxi18wpg2d6t2cs5rfyg4nrxe4cuggtdp0yhx785qsz9jpgm3dawmanqwgkr59" class="btn-gold px-4 py-2 rounded-lg text-sm text-black font-semibold">
+            <i class="fas fa-rocket mr-1"></i>Trade
+          </a>
+          <a href="#chart" class="btn-outline px-4 py-2 rounded-lg text-sm text-yellow-400 font-semibold">
+            <i class="fas fa-chart-line mr-1"></i>Chart
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Compact Chart Section -->
+    <section class="container mx-auto px-3 py-4" id="chart">
+      <div class="glass-card rounded-xl p-3 md:p-4 max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-base md:text-lg font-bold flex items-center gold-text">
+            <i class="fas fa-chart-area mr-2 text-sm"></i>Price Chart
+          </h3>
+          <div class="flex gap-1">
+            <button class="px-2 py-1 rounded bg-yellow-500/20 text-yellow-400 text-xs font-bold">24H</button>
+            <button class="px-2 py-1 rounded hover:bg-yellow-500/10 text-gray-400 text-xs">7D</button>
+            <button class="px-2 py-1 rounded hover:bg-yellow-500/10 text-gray-400 text-xs">30D</button>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="priceChart"></canvas>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Empire System - Horizontal Layout -->
+    <section id="empire" class="container mx-auto px-3 py-6 md:py-8">
+      <h2 class="text-xl md:text-2xl font-bold royal-font text-center gold-text mb-4">
+        <i class="fas fa-crown mr-2"></i>Empire System
+      </h2>
+      
+      <div class="glass-card rounded-xl p-4 max-w-6xl mx-auto mb-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+          <div class="text-center flex-1">
+            <i class="fas fa-masks-theater text-3xl text-blue-400 mb-2"></i>
+            <h4 class="text-sm font-bold mb-1">Meme Projects</h4>
+            <p class="text-xs text-gray-500">Launch viral tokens</p>
+          </div>
+          
+          <i class="fas fa-arrow-right text-yellow-400 rotate-90 md:rotate-0"></i>
+          
+          <div class="text-center flex-1">
+            <i class="fas fa-hand-holding-usd text-3xl text-green-400 mb-2"></i>
+            <h4 class="text-sm font-bold mb-1">Generate Profits</h4>
+            <p class="text-xs text-gray-500">Trading & fees revenue</p>
+          </div>
+          
+          <i class="fas fa-arrow-right text-yellow-400 rotate-90 md:rotate-0"></i>
+          
+          <div class="text-center flex-1">
+            <i class="fas fa-treasure-chest text-3xl text-purple-400 mb-2"></i>
+            <h4 class="text-sm font-bold mb-1">KING Treasury</h4>
+            <p class="text-xs text-gray-500">100% flows to KING</p>
+          </div>
+        </div>
+        
+        <div class="flow-line my-3"></div>
+        
+        <div class="grid grid-cols-2 gap-2">
+          <div class="bg-blue-500/10 rounded-lg p-2 border border-blue-500/30">
+            <div class="flex items-center gap-2">
+              <i class="fas fa-water text-blue-400"></i>
+              <div>
+                <p class="text-xs font-bold">80% Liquidity</p>
+                <p class="text-xs text-gray-500">Price floor</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-orange-500/10 rounded-lg p-2 border border-orange-500/30">
+            <div class="flex items-center gap-2">
+              <i class="fas fa-cogs text-orange-400"></i>
+              <div>
+                <p class="text-xs font-bold">20% Development</p>
+                <p class="text-xs text-gray-500">dApps growth</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Meme Army - Dynamic from Blockchain -->
+    <section id="memes" class="container mx-auto px-3 py-4">
+      <h2 class="text-xl md:text-2xl font-bold royal-font text-center gold-text mb-4">
+        <i class="fas fa-flag mr-2"></i>Our Meme Empire
+        <p class="text-xs font-bold mb-1">this under development: Currently showing Top Token on pump paxi network.</p>
+      </h2>
+      <div id="meme-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 max-w-6xl mx-auto">
+        <div class="glass-card rounded-lg p-3 text-center">
+          <div class="w-12 h-12 mx-auto mb-2 rounded-full shimmer"></div>
+          <p class="text-xs font-bold mb-1">Loading...</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Token Detail Bottom Sheet -->
+    <div id="token-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden" onclick="closeModal(event)">
+      <div class="absolute bottom-0 left-0 right-0 glass-card rounded-t-3xl p-6 max-h-[85vh] overflow-y-auto animate-slide-up" onclick="event.stopPropagation()">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-bold royal-font gold-text">Token Details</h3>
+          <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div id="modal-content">
+          <div class="text-center py-8">
+            <i class="fas fa-spinner fa-spin text-3xl text-yellow-400"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <style>
+      @keyframes slide-up {
+        from {
+          transform: translateY(100%);
+        }
+        
+        to {
+          transform: translateY(0);
+        }
+      }
+      
+      .animate-slide-up {
+        animation: slide-up 0.3s ease-out;
+      }
+    </style>
+    
+    <!-- Detailed Description -->
+    <div class="text-left max-w-3xl p-4">
+      <p class="text-sm md:text-base text-gray-300 mb-3 leading-relaxed">
+        <strong class="text-yellow-400">DOM</strong> is the supreme governance token that controls an entire empire of meme tokens. Unlike traditional single-token projects, KING operates as the central treasury that aggregates profits from all launched meme projects under its ecosystem.
+      </p>
+      
+      <div class="grid md:grid-cols-2 gap-3 text-xs md:text-sm">
+        <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
+          <p class="text-blue-400 font-bold mb-1"><i class="fas fa-chart-line mr-1"></i>Revenue Model</p>
+          <p class="text-gray-400 leading-relaxed">100% of profits from every meme token launch flows directly into KING treasury, creating continuous value appreciation.</p>
+        </div>
+        
+        <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+          <p class="text-green-400 font-bold mb-1"><i class="fas fa-shield-alt mr-1"></i>Auto-Compounding LP</p>
+          <p class="text-gray-400 leading-relaxed">80% of incoming profits automatically strengthen liquidity pool, creating an ever-rising price floor for KING token.</p>
+        </div>
+        
+        <div class="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3">
+          <p class="text-purple-400 font-bold mb-1"><i class="fas fa-rocket mr-1"></i>Ecosystem Growth</p>
+          <p class="text-gray-400 leading-relaxed">20% allocated to continuous development of dApps, tools, and new meme launches, ensuring perpetual ecosystem expansion.</p>
+        </div>
+        
+        <div class="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3">
+          <p class="text-orange-400 font-bold mb-1"><i class="fas fa-infinity mr-1"></i>Infinite Scalability</p>
+          <p class="text-gray-400 leading-relaxed">Each new meme launch becomes another revenue stream, creating exponential growth potential without dilution.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Tokenomics - Side by Side -->
+    <section class="container mx-auto px-3 py-6">
+      <h2 class="text-xl md:text-2xl font-bold royal-font text-center gold-text mb-4">
+        <i class="fas fa-coins mr-2"></i>Tokenomics
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-3 max-w-6xl mx-auto">
+        <div class="glass-card rounded-xl p-4">
+          <h3 class="text-sm font-bold mb-3 gold-text">Token Info</h3>
+          <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Total Supply</span>
+              <span class="font-bold" id="total-supply"><span class="shimmer">--</span></span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Circulating</span>
+              <span class="font-bold text-green-400" id="circulating"><span class="shimmer">--</span></span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Symbol</span>
+              <span class="font-bold text-yellow-400" id="symbol-token"><span class="shimmer">--</span></span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-400">Network</span>
+              <span class="font-bold text-blue-400">Paxi Network</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="glass-card rounded-xl p-4">
+          <h3 class="text-sm font-bold mb-3 gold-text">Distribution</h3>
+          <div class="space-y-2">
+            <div>
+              <div class="flex justify-between items-center text-xs mb-1">
+                <span class="text-gray-400">Liquidity Pool</span>
+                <span class="font-bold text-blue-400">80%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-1.5">
+                <div class="bg-blue-500 h-1.5 rounded-full" style="width: 80%"></div>
+              </div>
+            </div>
+            
+            <div>
+              <div class="flex justify-between items-center text-xs mb-1">
+                <span class="text-gray-400">Development</span>
+                <span class="font-bold text-orange-400">20%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-1.5">
+                <div class="bg-orange-500 h-1.5 rounded-full" style="width: 20%"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-3 p-2 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+            <p class="text-xs text-gray-400">
+              <i class="fas fa-info-circle text-yellow-400 mr-1"></i>
+              All meme profits flow to KING treasury
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Why KING - Compact 4 Column -->
+    <section class="container mx-auto px-3 py-4">
+      <h2 class="text-xl md:text-2xl font-bold royal-font text-center gold-text mb-4">
+        <i class="fas fa-star mr-2"></i>Why KING
+      </h2>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 max-w-6xl mx-auto">
+        <div class="glass-card rounded-lg p-3 text-center">
+          <i class="fas fa-infinity text-2xl text-yellow-400 mb-2"></i>
+          <h4 class="text-xs font-bold mb-1">Infinite Revenue</h4>
+          <p class="text-xs text-gray-500">Every meme = profit</p>
+        </div>
+        
+        <div class="glass-card rounded-lg p-3 text-center">
+          <i class="fas fa-shield-alt text-2xl text-green-400 mb-2"></i>
+          <h4 class="text-xs font-bold mb-1">Auto-Strengthen</h4>
+          <p class="text-xs text-gray-500">80% to LP floor</p>
+        </div>
+        
+        <div class="glass-card rounded-lg p-3 text-center">
+          <i class="fas fa-rocket text-2xl text-purple-400 mb-2"></i>
+          <h4 class="text-xs font-bold mb-1">Ecosystem</h4>
+          <p class="text-xs text-gray-500">20% dApps fund</p>
+        </div>
+        
+        <div class="glass-card rounded-lg p-3 text-center">
+          <i class="fas fa-users text-2xl text-blue-400 mb-2"></i>
+          <h4 class="text-xs font-bold mb-1">Community</h4>
+          <p class="text-xs text-gray-500">Holder governance</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Dev Actions History -->
+    <section class="container mx-auto px-3 py-4" id="dev-actions">
+      <h2 class="text-xl md:text-2xl font-bold royal-font text-center gold-text mb-4">
+        <i class="fas fa-history mr-2"></i>Dev Actions History (under development)
+      </h2>
+      
+      <div class="glass-card rounded-xl p-4 max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs text-gray-400">Latest transparent actions from dev wallet</p>
+          <button onclick="refreshActions()" class="text-xs text-yellow-400 hover:text-yellow-300">
+            <i class="fas fa-sync-alt mr-1"></i>Refresh
+          </button>
+        </div>
+        
+        <div id="actions-list" class="space-y-2 max-h-96 overflow-y-auto">
+          <div class="text-center py-8">
+            <i class="fas fa-spinner fa-spin text-2xl text-yellow-400 mb-2"></i>
+            <p class="text-sm text-gray-500">Loading dev actions...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Compact CTA -->
+    <section class="container mx-auto px-3 py-6">
+      <div class="glass-card rounded-xl p-6 max-w-4xl mx-auto text-center">
+        <i class="fas fa-crown text-4xl text-yellow-400 mb-3"></i>
+        <h2 class="text-2xl md:text-3xl font-bold royal-font gold-text mb-2">Join the Empire</h2>
+        <p class="text-sm text-gray-400 mb-4">Rule the meme kingdom. Profit from every conquest.</p>
+        
+        <div class="flex flex-wrap justify-center gap-2 mb-4">
+          <a href="#buy" class="btn-gold px-6 py-2 rounded-lg text-sm text-black font-semibold">
+            <i class="fas fa-crown mr-1"></i>Buy KING
+          </a>
+          <a href="#docs" class="btn-outline px-6 py-2 rounded-lg text-sm text-yellow-400 font-semibold">
+            <i class="fas fa-file-alt mr-1"></i>Docs
+          </a>
+        </div>
+        
+        <div class="flex justify-center gap-4">
+          <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-twitter text-xl"></i></a>
+          <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-telegram text-xl"></i></a>
+          <a href="#" class="text-gray-400 hover:text-yellow-400 transition"><i class="fab fa-discord text-xl"></i></a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Compact Footer -->
+    <footer class="container mx-auto px-3 py-6 border-t border-yellow-500/20 mt-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-3 gap-6 mb-4 text-center md:text-left">
+          <div>
+            <h4 class="text-lg font-bold royal-font gold-text mb-2">MEME KING</h4>
+            <p class="text-xs text-gray-500">Supreme ruler of meme empire on Paxi Network</p>
+          </div>
+          
+          <div>
+            <h5 class="text-sm font-bold mb-2">Links</h5>
+            <div class="space-y-1 text-xs">
+              <a href="#empire" class="block text-gray-400 hover:text-yellow-400">Empire</a>
+              <a href="#memes" class="block text-gray-400 hover:text-yellow-400">Memes</a>
+              <a href="#" class="block text-gray-400 hover:text-yellow-400">Docs</a>
+            </div>
+          </div>
+          
+          <div>
+            <h5 class="text-sm font-bold mb-2">Community</h5>
+            <div class="flex gap-2 justify-center md:justify-start">
+              <a href="#" class="w-8 h-8 rounded bg-yellow-500/20 hover:bg-yellow-500/30 flex items-center justify-center">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="w-8 h-8 rounded bg-yellow-500/20 hover:bg-yellow-500/30 flex items-center justify-center">
+                <i class="fab fa-telegram"></i>
+              </a>
+              <a href="#" class="w-8 h-8 rounded bg-yellow-500/20 hover:bg-yellow-500/30 flex items-center justify-center">
+                <i class="fab fa-discord"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-center pt-4 border-t border-yellow-500/20">
+          <p class="text-xs text-gray-600">© 2025 MEME KING. Built on Paxi Network. <i class="fas fa-crown text-yellow-500"></i></p>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script type="text/javascript" src="/website-DOM/src/config.js">
+  </script>
+  <script type="text/javascript" src="/website-DOM/src/main.js">
+  </script>
+</body>
+
+</html>
